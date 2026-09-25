@@ -30,7 +30,7 @@
                         <li><a class="dropdown-item" href="{% url 'home:categoria' %}">Tecnología</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="">Perfil</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'perfil' %}active{% endif %}" href="{% url 'home:perfil' %}">Perfil</a></li>
             </ul>
 
             <form action="#" class="search-form me-lg-3 mb-3 mb-lg-0">

@@ -1,0 +1,46 @@
+{% load static %}
+{% with current=request.resolver_match.url_name %}
+<aside class="panel-sidebar flex-shrink-0">
+    <div class="panel-sidebar-title">Panel de control</div>
+    <ul class="nav nav-pills nav-flush flex-column mb-auto text-start">
+        <li class="nav-item">
+            <a href="{% url 'home:perfil' %}" class="nav-link panel-nav-link {% if current == 'perfil' or current == 'crud_perfil' %}active{% endif %}">
+                <i class="bi bi-person-badge"></i><span>Mi Perfil</span>
+            </a>
+        </li>
+        <li>
+            <a href="" class="nav-link panel-nav-link {% if current == 'crud_noticias' or current == 'crear_publicacion' or current == 'editar_publicacion' %}active{% endif %}">
+                <i class="bi bi-newspaper"></i><span>Noticias</span>
+            </a>
+        </li>
+        <li>
+            <a href="" class="nav-link panel-nav-link {% if current == 'crud_comentarios' %}active{% endif %}">
+                <i class="bi bi-chat-dots"></i><span>Comentarios</span>
+            </a>
+        </li>
+        <li>
+            <a href="" class="nav-link panel-nav-link {% if current == 'crud_categorias' or current == 'editar_categoria' %}active{% endif %}">
+                <i class="bi bi-tags"></i><span>Categorías</span>
+            </a>
+        </li>
+        <li>
+            <a href="" class="nav-link panel-nav-link {% if current == 'crud_usuarios' or current == 'crear_usuario' or current == 'editar_usuario' %}active{% endif %}">
+                <i class="bi bi-people"></i><span>Usuarios</span>
+            </a>
+        </li>
+        <li>
+            <a href="" class="nav-link panel-nav-link {% if current == 'crud_cambiar_contrasena' or current == 'crud_cambContra' %}active{% endif %}">
+                <i class="bi bi-shield-lock"></i><span>Cambiar<br>contraseña</span>
+            </a>
+        </li>
+        <li>
+            <form method="post" action="{% url 'home:login' %}" class="w-100">
+                {% csrf_token %}
+                <button type="submit" class="btn panel-logout-button w-100">
+                    <i class="bi bi-box-arrow-right me-1"></i><span>Cerrar sesión</span>
+                </button>
+            </form>
+        </li>
+    </ul>
+</aside>
+{% endwith %}
