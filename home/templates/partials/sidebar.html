@@ -9,27 +9,27 @@
             </a>
         </li>
         <li>
-            <a href="" class="nav-link panel-nav-link {% if current == 'crud_noticias' or current == 'crear_publicacion' or current == 'editar_publicacion' %}active{% endif %}">
+            <a href="{% url 'home:crud_noticias' %}" class="nav-link panel-nav-link {% if current == 'crud_noticias' or current == 'crear_publicacion' or current == 'editar_publicacion' %}active{% endif %}">
                 <i class="bi bi-newspaper"></i><span>Noticias</span>
             </a>
         </li>
         <li>
-            <a href="" class="nav-link panel-nav-link {% if current == 'crud_comentarios' %}active{% endif %}">
+            <a href="{% url 'home:crud_comentarios' %}" class="nav-link panel-nav-link {% if current == 'crud_comentarios' %}active{% endif %}">
                 <i class="bi bi-chat-dots"></i><span>Comentarios</span>
             </a>
         </li>
         <li>
-            <a href="" class="nav-link panel-nav-link {% if current == 'crud_categorias' or current == 'editar_categoria' %}active{% endif %}">
+            <a href="{% url 'home:crud_categorias' %}" class="nav-link panel-nav-link {% if current == 'crud_categorias' or current == 'editar_categoria' %}active{% endif %}">
                 <i class="bi bi-tags"></i><span>Categorías</span>
             </a>
         </li>
         <li>
-            <a href="" class="nav-link panel-nav-link {% if current == 'crud_usuarios' or current == 'crear_usuario' or current == 'editar_usuario' %}active{% endif %}">
+            <a href="{% url 'home:crud_usuarios' %}" class="nav-link panel-nav-link {% if current == 'crud_usuarios' or current == 'crear_usuario' or current == 'editar_usuario' %}active{% endif %}">
                 <i class="bi bi-people"></i><span>Usuarios</span>
             </a>
         </li>
         <li>
-            <a href="" class="nav-link panel-nav-link {% if current == 'crud_cambiar_contrasena' or current == 'crud_cambContra' %}active{% endif %}">
+            <a href="{% url 'home:crud_cambiar_contrasena' %}" class="nav-link panel-nav-link {% if current == 'crud_cambiar_contrasena' or current == 'crud_cambContra' %}active{% endif %}">
                 <i class="bi bi-shield-lock"></i><span>Cambiar<br>contraseña</span>
             </a>
         </li>
