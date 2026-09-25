@@ -3,23 +3,34 @@
 {% block title %}Inicio{% endblock %}
 {% block content %}
 
+{% if slider %}
 <section class="home-carousel-section">
     <div class="container">
         <div id="homeCarousel" class="carousel slide home-carousel" data-bs-ride="carousel">
             <div class="carousel-indicators">
-                <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Noticia 1"></button>
+                {% for noticia in slider %}
+                <button type="button" data-bs-target="#homeCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" aria-label="Noticia {{ forloop.counter }}"></button>
+                {% endfor %}
             </div>
             <div class="carousel-inner">
-                <div class="carousel-item active" data-bs-interval="4500">
-                    <a href="{% url 'home:noticia' %}" class="home-carousel-link">
-                        <img src="{% static 'images/hero_1.jpg' %}" class="d-block w-100 home-carousel-image" alt="titulo">
+                {% for noticia in slider %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="4500">
+                    <a href="{% url 'home:noticia_detalle' noticia.id %}" class="home-carousel-link">
+                        {% if noticia.imagen_portada %}
+                        <img src="{{ noticia.imagen_portada.display_url }}" class="d-block w-100 home-carousel-image" alt="{{ noticia.titulo }}">
+                        {% else %}
+                        <img src="{% static 'images/hero_1.jpg' %}" class="d-block w-100 home-carousel-image" alt="{{ noticia.titulo }}">
+                        {% endif %}
                         <div class="home-carousel-caption">
-                            <span class="chip">Fecha de la noticia</span>
-                            <h2>Titulo de la noticia</h2>
-                            <p>Resumen de la noticia</p>
+                            <span class="chip">{{ noticia.createdat|date:"d M Y" }}</span>
+                            <h2>{{ noticia.titulo }}</h2>
+                            {% if noticia.resumen %}
+                            <p>{{ noticia.resumen|truncatewords:20 }}</p>
+                            {% endif %}
                         </div>
                     </a>
                 </div>
+                {% endfor %}
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#homeCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -32,6 +43,7 @@
         </div>
     </div>
 </section>
+{% endif %}
 
 <section class="section recent-news-section">
     <div class="container">
@@ -40,31 +52,37 @@
                 <span class="eyebrow">Lo último</span>
                 <h2 class="posts-entry-title">Noticias recientes</h2>
             </div>
-            <a href="#" class="read-more">Ver todas <i class="bi bi-arrow-right"></i></a>
+            <a href="{% url 'home:categoria' %}" class="read-more">Ver todas <i class="bi bi-arrow-right"></i></a>
         </div>
 
         <div class="row g-4">
+            {% for noticia in publicaciones %}
             <div class="col-md-6 col-lg-4">
                 <article class="post-entry-alt">
-                    <a href="{% url 'home:noticia' %}" class="img-link">
-                        {% comment %} <img src="" alt="titulo" class="publication-card-image"> {% endcomment %}
-                        <img src="{% static 'images/img_1_horizontal.jpg' %}" alt="titulo" class="publication-card-image">
-                        <span class="card-chip">Sin categoría</span>
+                    <a href="{% url 'home:noticia_detalle' noticia.id %}" class="img-link">
+                        {% if noticia.imagen_portada %}
+                        <img src="{{ noticia.imagen_portada.display_url }}" alt="{{ noticia.titulo }}" class="publication-card-image">
+                        {% else %}
+                        <img src="{% static 'images/img_1_horizontal.jpg' %}" alt="{{ noticia.titulo }}" class="publication-card-image">
+                        {% endif %}
+                        <span class="card-chip">{% if noticia.categoria %}{{ noticia.categoria.nombre }}{% else %}Sin categoría{% endif %}</span>
                     </a>
                     <div class="excerpt">
                         <div class="post-meta">
-                            <span><i class="bi bi-clock me-1"></i>Fecha</span>
-                            <span><i class="bi bi-eye me-1"></i>24</span>
+                            <span><i class="bi bi-clock me-1"></i>{{ noticia.createdat|date:"d M Y" }}</span>
+                            <span><i class="bi bi-eye me-1"></i>Visitas: {{ noticia.visitas }}</span>
                         </div>
-                        <h2><a href="{% url 'home:noticia' %}">titulo</a></h2>
-                        <p>Resumen de la noticia</p>
-                        <a href="{% url 'home:noticia' %}" class="read-more">Saber más <i class="bi bi-arrow-right"></i></a>
+                        <h2><a href="{% url 'home:noticia_detalle' noticia.id %}">{{ noticia.titulo }}</a></h2>
+                        <p>{{ noticia.resumen }}</p>
+                        <a href="{% url 'home:noticia_detalle' noticia.id %}" class="read-more">Saber más <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </article>
             </div>
+            {% empty %}
             <div class="col-12">
                 <p class="empty-state">No hay noticias publicadas todavía.</p>
             </div>
+            {% endfor %}
         </div>
     </div>
 </section>
