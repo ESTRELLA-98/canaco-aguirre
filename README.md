@@ -50,3 +50,18 @@ construida con Bootstrap 5 y una paleta morado + coral.
 Las páginas públicas extienden `partials/base.html` y las del panel de
 administración extienden `partials/sidebar_base.html`; ambas incluyen
 `partials/header.html` y `partials/footer.html`.
+
+## Base de datos
+
+1. En XAMPP iniciar **Apache** y **MySQL** y crear en phpMyAdmin la base `canaco`.
+2. La conexión está en `canaco/settings.py` (usuario `root`, sin contraseña).
+   Se usa **PyMySQL**, registrado en `canaco/__init__.py` con `pymysql.install_as_MySQLdb()`.
+3. Ejecutar las migraciones y crear un superusuario:
+
+   ```bash
+   python manage.py migrate
+   python manage.py createsuperuser
+   ```
+
+Modelos de la app `home`: `Categoria`, `Archivo`, `Perfil`, `Publicacion`,
+`GaleriaPublicacion` y `Comentario`.
