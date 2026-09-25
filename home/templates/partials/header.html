@@ -22,12 +22,12 @@
 
         <div class="collapse navbar-collapse" id="menuPrincipal">
             <ul class="navbar-nav mx-auto site-menu">
-                <li class="nav-item"><a class="nav-link active" href="{% url 'home:index' %}">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'home:index' %}">Inicio</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Categoría</a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="">Todas</a></li>
-                        <li><a class="dropdown-item" href=""></a></li>
+                        <li><a class="dropdown-item" href="{% url 'home:categoria' %}">Todas</a></li>
+                        <li><a class="dropdown-item" href="{% url 'home:categoria' %}">Tecnología</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="">Perfil</a></li>
@@ -48,8 +48,8 @@
             </div>
             {% else %}
             <div class="d-flex align-items-center gap-2 nav-actions">
-                <a href="" class="btn btn-sm btn-outline-primary">Iniciar sesión</a>
-                <a href="" class="btn btn-sm btn-coral">Registro</a>
+                <a href="{% url 'home:login' %}" class="btn btn-sm btn-outline-primary">Iniciar sesión</a>
+                <a href="{% url 'home:sign_up' %}" class="btn btn-sm btn-coral">Registro</a>
             </div>
             {% endif %}
         </div>

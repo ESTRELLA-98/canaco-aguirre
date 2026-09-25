@@ -11,7 +11,7 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active" data-bs-interval="4500">
-                    <a href="" class="home-carousel-link">
+                    <a href="{% url 'home:noticia' %}" class="home-carousel-link">
                         <img src="{% static 'images/hero_1.jpg' %}" class="d-block w-100 home-carousel-image" alt="titulo">
                         <div class="home-carousel-caption">
                             <span class="chip">Fecha de la noticia</span>
@@ -46,7 +46,7 @@
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
                 <article class="post-entry-alt">
-                    <a href="" class="img-link">
+                    <a href="{% url 'home:noticia' %}" class="img-link">
                         {% comment %} <img src="" alt="titulo" class="publication-card-image"> {% endcomment %}
                         <img src="{% static 'images/img_1_horizontal.jpg' %}" alt="titulo" class="publication-card-image">
                         <span class="card-chip">Sin categoría</span>
@@ -56,9 +56,9 @@
                             <span><i class="bi bi-clock me-1"></i>Fecha</span>
                             <span><i class="bi bi-eye me-1"></i>24</span>
                         </div>
-                        <h2><a href="">titulo</a></h2>
+                        <h2><a href="{% url 'home:noticia' %}">titulo</a></h2>
                         <p>Resumen de la noticia</p>
-                        <a href="#" class="read-more">Saber más <i class="bi bi-arrow-right"></i></a>
+                        <a href="{% url 'home:noticia' %}" class="read-more">Saber más <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </article>
             </div>
