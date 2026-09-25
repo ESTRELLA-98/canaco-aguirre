@@ -65,3 +65,22 @@ administración extienden `partials/sidebar_base.html`; ambas incluyen
 
 Modelos de la app `home`: `Categoria`, `Archivo`, `Perfil`, `Publicacion`,
 `GaleriaPublicacion` y `Comentario`.
+
+## Funcionalidades
+
+- **Cuentas:** registro, inicio y cierre de sesión, perfil con foto y cambio de contraseña.
+  Cada usuario nuevo recibe un `Perfil` automáticamente (`home/signals.py`).
+- **Usuarios:** crear, editar, bloquear y eliminar cuentas, con rol asignable.
+- **Noticias:** crear, editar, publicar u ocultar y eliminar publicaciones, con portada,
+  galería de imágenes y editor Quill.
+- **Categorías:** alta, edición y eliminación; filtro de noticias por categoría.
+- **Comentarios:** los usuarios comentan y un operador los aprueba, bloquea o elimina.
+- **Inicio:** carrusel y noticias recientes publicadas.
+- **Contexto global:** `home/context_processors.py` expone `global_categorias` y
+  `global_recientes` para el menú de categorías y el pie de página.
+
+## Roles
+
+- **Administrador / editor** (`is_staff`): acceso al panel de noticias, comentarios,
+  categorías y usuarios.
+- **Colaborador:** puede ver su perfil, cambiar su contraseña y comentar noticias.

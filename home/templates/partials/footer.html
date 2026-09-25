@@ -49,19 +49,25 @@
                     <h3 class="mb-4">Entradas Recientes</h3>
                     <div class="post-entry-footer">
                         <ul class="list-unstyled">
+                            {% for noticia in global_recientes %}
                             <li>
-                                <a href="">
-                                    {% comment %} <img src="" alt="" class="rounded"> {% endcomment %}
-                                    <img src="{% static 'images/img_1_sq.jpg' %}" alt="" class="rounded">
+                                <a href="{% url 'home:noticia_detalle' noticia.id %}">
+                                    {% if noticia.imagen_portada %}
+                                    <img src="{{ noticia.imagen_portada.display_url }}" alt="{{ noticia.titulo }}" class="rounded">
+                                    {% else %}
+                                    <img src="{% static 'images/img_1_sq.jpg' %}" alt="{{ noticia.titulo }}" class="rounded">
+                                    {% endif %}
                                     <div class="text">
-                                        <h4></h4>
+                                        <h4>{{ noticia.titulo }}</h4>
                                         <div class="post-meta">
-                                            <span></span>
+                                            <span>{{ noticia.createdat|date:"d M, Y" }}</span>
                                         </div>
                                     </div>
                                 </a>
                             </li>
+                            {% empty %}
                             <li><span class="text-white-50">No hay noticias recientes.</span></li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
