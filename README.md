@@ -35,3 +35,18 @@ construida con Bootstrap 5 y una paleta morado + coral.
 
 - `canaco/`: configuración del proyecto (`settings.py`, `urls.py`).
 - `home/`: aplicación principal (vistas, rutas, modelos y templates).
+- `static/`: hojas de estilo, scripts e imágenes.
+
+## Diseño
+
+| Elemento | Valor |
+| --- | --- |
+| Framework | Bootstrap 5.3 + Bootstrap Icons (CDN) |
+| Tipografías | Playfair Display (títulos) y Poppins (texto) |
+| Morado | `#4c1d95` (principal), `#2e1065` (oscuro) |
+| Coral | `#f97360` (acento), `#e85a45` (hover) |
+| Hoja de estilos | `static/css/style.css` |
+
+Las páginas públicas extienden `partials/base.html` y las del panel de
+administración extienden `partials/sidebar_base.html`; ambas incluyen
+`partials/header.html` y `partials/footer.html`.

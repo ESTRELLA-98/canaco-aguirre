@@ -1,0 +1,76 @@
+{% load static %}
+<footer class="site-footer">
+    <div class="footer-wave"></div>
+    <div class="container">
+        <div class="row gy-5">
+            <div class="col-lg-4">
+                <div class="widget">
+                    <a href="{% url 'home:index' %}" class="logo footer-logo">Canaco<span class="logo-dot">.</span></a>
+                    <h3 class="mt-4 mb-3">Acerca de</h3>
+                    <p>Muy muy lejos, detrás de las montañas de palabras, lejos de los países Vokalia y Consonantia, viven los textos ciegos.</p>
+                </div>
+                <div class="widget">
+                    <h3>Redes Sociales</h3>
+                    <ul class="list-unstyled social">
+                        <li><a href="#" aria-label="Instagram"><i class="bi bi-instagram"></i></a></li>
+                        <li><a href="#" aria-label="X"><i class="bi bi-twitter-x"></i></a></li>
+                        <li><a href="#" aria-label="Facebook"><i class="bi bi-facebook"></i></a></li>
+                        <li><a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a></li>
+                        <li><a href="#" aria-label="Pinterest"><i class="bi bi-pinterest"></i></a></li>
+                        <li><a href="#" aria-label="Dribbble"><i class="bi bi-dribbble"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 ps-lg-5">
+                <div class="widget">
+                    <h3 class="mb-4">Empresa</h3>
+                    <div class="d-flex gap-5">
+                        <ul class="list-unstyled links">
+                            <li><a href="#">Sobre nosotros</a></li>
+                            <li><a href="#">Servicios</a></li>
+                            <li><a href="#">Visión</a></li>
+                            <li><a href="#">Misión</a></li>
+                            <li><a href="#">Términos</a></li>
+                            <li><a href="#">Privacidad</a></li>
+                        </ul>
+                        <ul class="list-unstyled links">
+                            <li><a href="#">Socios</a></li>
+                            <li><a href="#">Negocios</a></li>
+                            <li><a href="#">Empleos</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Preguntas Frecuentes</a></li>
+                            <li><a href="#">Creativos</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="widget">
+                    <h3 class="mb-4">Entradas Recientes</h3>
+                    <div class="post-entry-footer">
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="">
+                                    {% comment %} <img src="" alt="" class="rounded"> {% endcomment %}
+                                    <img src="{% static 'images/img_1_sq.jpg' %}" alt="" class="rounded">
+                                    <div class="text">
+                                        <h4></h4>
+                                        <div class="post-meta">
+                                            <span></span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li><span class="text-white-50">No hay noticias recientes.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p class="mb-0">Copyright &copy; {% now "Y" %} Canaco. Todos los derechos reservados.</p>
+            <p class="mb-0">Hecho con Django y Bootstrap</p>
+        </div>
+    </div>
+</footer>
