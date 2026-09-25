@@ -40,8 +40,8 @@
 
             {% if request.user.is_authenticated %}
             <div class="d-flex align-items-center gap-2 nav-actions">
-                <a href="" class="nav-user"><i class="bi bi-person-circle me-1"></i></a>
-                <form method="post" action="">
+                <a href="{% url 'home:perfil' %}" class="nav-user"><i class="bi bi-person-circle me-1"></i>{{ request.user.username }}</a>
+                <form method="post" action="{% url 'home:logout' %}">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-sm btn-coral">Cerrar sesión</button>
                 </form>
