@@ -25,11 +25,24 @@ construida con Bootstrap 5 y una paleta morado + coral.
    pip list
    ```
 
-3. Levantar el servidor y abrir <http://127.0.0.1:8000>:
+3. Levantar el servidor en el puerto **8001** y abrir <http://127.0.0.1:8001>:
 
    ```bash
-   python manage.py runserver
+   python manage.py runserver 8001
    ```
+
+   Se usa el puerto 8001 porque en el mismo equipo corre otro proyecto Django
+   (`canaco_salvador`) en el puerto 8000. Un puerto solo puede usarlo un servidor
+   a la vez; si se levantan los dos en el 8000, el segundo muestra el error
+   `That port is already in use`. Con puertos distintos ambos pueden estar
+   encendidos al mismo tiempo:
+
+   | Proyecto | Comando | Dirección |
+   | --- | --- | --- |
+   | `canaco_salvador` | `python manage.py runserver` | <http://127.0.0.1:8000> |
+   | `canaco_maria` | `python manage.py runserver 8001` | <http://127.0.0.1:8001> |
+
+   Para detener el servidor se presiona **Ctrl + C** en su terminal.
 
 ## Estructura
 
