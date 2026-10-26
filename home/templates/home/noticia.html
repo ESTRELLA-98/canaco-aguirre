@@ -34,15 +34,42 @@
                 </div>
 
                 <h3 class="mt-5">Galería</h3>
-                <div class="row my-4">
-                    {% for imagen in publicacion.galeria.all %}
-                    <div class="col-md-4 mb-4">
-                        <img src="{{ imagen.archivo.display_url }}" alt="Galería" class="img-fluid rounded publication-gallery-image">
+                {% with galeria=publicacion.galeria.all %}
+                {% if galeria %}
+                <div id="galeriaCarousel" class="carousel slide gallery-carousel my-4" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        {% for imagen in galeria %}
+                        <button type="button" data-bs-target="#galeriaCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" aria-label="Imagen {{ forloop.counter }}"></button>
+                        {% endfor %}
                     </div>
-                    {% empty %}
-                    <div class="col-12"><p>Sin imágenes en galería.</p></div>
+                    <div class="carousel-inner">
+                        {% for imagen in galeria %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="5000">
+                            <img src="{{ imagen.archivo.display_url }}" alt="Galería {{ forloop.counter }}" class="d-block w-100 publication-gallery-image">
+                            <span class="gallery-counter">{{ forloop.counter }} / {{ galeria|length }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#galeriaCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Anterior</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#galeriaCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Siguiente</span>
+                    </button>
+                </div>
+                <div class="gallery-thumbs mb-4">
+                    {% for imagen in galeria %}
+                    <button type="button" data-bs-target="#galeriaCarousel" data-bs-slide-to="{{ forloop.counter0 }}" aria-label="Ver imagen {{ forloop.counter }}">
+                        <img src="{{ imagen.archivo.display_url }}" alt="Miniatura {{ forloop.counter }}">
+                    </button>
                     {% endfor %}
                 </div>
+                {% else %}
+                <p class="my-4">Sin imágenes en galería.</p>
+                {% endif %}
+                {% endwith %}
 
                 <div class="pt-4 comment-wrap">
                     <h3 class="mb-4"><i class="bi bi-chat-heart me-2"></i>Comentarios</h3>
