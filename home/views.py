@@ -36,7 +36,7 @@ def index(request):
     ).select_related('categoria', 'autor', 'imagen_portada').order_by('-createdat')
     return render(request, 'home/index.html', {
         'slider': publicaciones[:3],
-        'publicaciones': publicaciones[:3],
+        'publicaciones': publicaciones[:4],
     })
 
 

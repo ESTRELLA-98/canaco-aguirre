@@ -57,7 +57,7 @@
 
         <div class="row g-4">
             {% for noticia in publicaciones %}
-            <div class="col-md-6 col-lg-4">
+            <div class="col-md-6 col-lg-3">
                 <article class="post-entry-alt">
                     <a href="{% url 'home:noticia_detalle' noticia.id %}" class="img-link">
                         {% if noticia.imagen_portada %}
