@@ -86,4 +86,29 @@
         </div>
     </div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="modalBienvenida" tabindex="-1" aria-labelledby="modalBienvenidaLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="modalBienvenidaLabel">Bienvenido a Canaco</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Este es el sitio de noticias de la Cámara Nacional de Comercio. Aquí encontrarás los eventos realizados y los próximos a realizar.
+      </div>
+      <div class="modal-footer">
+        Cámara Nacional de Comercio
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}
+
+{% block extra_js %}
+<script>
+  const modalBienvenida = new bootstrap.Modal(document.getElementById('modalBienvenida'));
+  modalBienvenida.show();
+</script>
+{% endblock extra_js %}
