@@ -36,4 +36,7 @@ urlpatterns = [
     path("crud_noticias/<int:pk>/publicar", views.publicar_publicacion, name="publicar_publicacion"),
     path("crud_noticias/<int:pk>/eliminar", views.eliminar_publicacion, name="eliminar_publicacion"),
     path("categoria/<int:pk>", views.categoria, name="categoria_detalle"),
+    path("crud_categorias_ajax", views.crud_categorias_ajax, name="crud_categorias_ajax"),
+    path("api/categorias", views.api_categorias, name="api_categorias"),
+    path("api/categorias/<int:pk>", views.api_categoria, name="api_categoria"),
 ]

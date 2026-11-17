@@ -1,0 +1,161 @@
+{% extends 'partials/sidebar_base.html' %}
+{% load static %}
+{% block title %}Categorías (AJAX){% endblock %}
+{% block content %}
+<div class="container mt-2">
+    <span class="eyebrow">Clasificación</span>
+    <h1 class="mb-2">Categorías con AJAX</h1>
+    <p class="text-muted mb-4">Agrega, edita y elimina categorías sin recargar la página.</p>
+
+    <div id="mensaje"></div>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <form id="formCategoria" class="row g-2">
+                {% csrf_token %}
+                <input type="hidden" id="categoriaId">
+                <div class="col-md-7">
+                    <input type="text" id="nombre" class="form-control" placeholder="Nombre de la categoría" required>
+                </div>
+                <div class="col-md-3 d-grid">
+                    <button type="submit" id="btnGuardar" class="btn btn-primary">Agregar</button>
+                </div>
+                <div class="col-md-2 d-grid">
+                    <button type="button" id="btnCancelar" class="btn btn-outline-secondary" hidden>Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th>#</th>
+                    <th>Nombre</th>
+                    <th>Registrado por</th>
+                    <th>Fecha</th>
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
+            <tbody id="tablaCategorias">
+                <tr><td colspan="6" class="text-center">Cargando...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    const urlLista = "{% url 'home:api_categorias' %}";
+    const urlDetalle = "{% url 'home:api_categoria' 0 %}".replace('/0', '/');
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    const form = document.getElementById('formCategoria');
+    const inputId = document.getElementById('categoriaId');
+    const inputNombre = document.getElementById('nombre');
+    const btnGuardar = document.getElementById('btnGuardar');
+    const btnCancelar = document.getElementById('btnCancelar');
+    const tabla = document.getElementById('tablaCategorias');
+    const mensaje = document.getElementById('mensaje');
+
+    // Envía una petición AJAX al servidor y devuelve la respuesta en JSON
+    async function peticion(url, metodo, datos) {
+        const opciones = {
+            method: metodo,
+            headers: {'Content-Type': 'application/json', 'X-CSRFToken': csrftoken},
+        };
+        if (datos) {
+            opciones.body = JSON.stringify(datos);
+        }
+        const respuesta = await fetch(url, opciones);
+        const json = await respuesta.json();
+        if (!respuesta.ok) {
+            throw new Error(json.error || 'Ocurrió un error.');
+        }
+        return json;
+    }
+
+    function mostrarMensaje(texto, tipo) {
+        mensaje.innerHTML = `<div class="alert alert-${tipo}">${texto}</div>`;
+        setTimeout(() => mensaje.innerHTML = '', 3000);
+    }
+
+    // READ: carga la lista de categorías y dibuja la tabla
+    async function cargarCategorias() {
+        const datos = await peticion(urlLista, 'GET');
+        tabla.innerHTML = '';
+        if (datos.categorias.length === 0) {
+            tabla.innerHTML = '<tr><td colspan="6" class="text-center">No hay categorías aún.</td></tr>';
+            return;
+        }
+        datos.categorias.forEach((categoria, i) => {
+            const fila = document.createElement('tr');
+            fila.innerHTML = `
+                <td>${i + 1}</td>
+                <td></td>
+                <td>${categoria.registrado_por}</td>
+                <td>${categoria.fecha}</td>
+                <td><button class="btn btn-info btn-sm btn-editar">Editar</button></td>
+                <td><button class="btn btn-danger btn-sm btn-eliminar">Eliminar</button></td>`;
+            fila.children[1].textContent = categoria.nombre;
+            fila.querySelector('.btn-editar').addEventListener('click', () => editar(categoria));
+            fila.querySelector('.btn-eliminar').addEventListener('click', () => eliminar(categoria));
+            tabla.appendChild(fila);
+        });
+    }
+
+    // CREATE y UPDATE: el mismo formulario agrega o guarda cambios
+    form.addEventListener('submit', async (evento) => {
+        evento.preventDefault();
+        const nombre = inputNombre.value.trim();
+        try {
+            if (inputId.value) {
+                await peticion(urlDetalle + inputId.value, 'PUT', {nombre: nombre});
+                mostrarMensaje('Categoría actualizada correctamente.', 'success');
+            } else {
+                await peticion(urlLista, 'POST', {nombre: nombre});
+                mostrarMensaje('Categoría agregada correctamente.', 'success');
+            }
+            limpiarFormulario();
+            cargarCategorias();
+        } catch (error) {
+            mostrarMensaje(error.message, 'danger');
+        }
+    });
+
+    function editar(categoria) {
+        inputId.value = categoria.id;
+        inputNombre.value = categoria.nombre;
+        btnGuardar.textContent = 'Guardar cambios';
+        btnCancelar.hidden = false;
+        inputNombre.focus();
+    }
+
+    function limpiarFormulario() {
+        form.reset();
+        inputId.value = '';
+        btnGuardar.textContent = 'Agregar';
+        btnCancelar.hidden = true;
+    }
+
+    btnCancelar.addEventListener('click', limpiarFormulario);
+
+    // DELETE
+    async function eliminar(categoria) {
+        if (!confirm(`¿Eliminar la categoría "${categoria.nombre}"?`)) {
+            return;
+        }
+        try {
+            await peticion(urlDetalle + categoria.id, 'DELETE');
+            mostrarMensaje('Categoría eliminada correctamente.', 'success');
+            cargarCategorias();
+        } catch (error) {
+            mostrarMensaje(error.message, 'danger');
+        }
+    }
+
+    cargarCategorias();
+</script>
+{% endblock extra_js %}

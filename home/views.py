@@ -1,3 +1,4 @@
+import json
 import os
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -6,6 +7,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.models import User
 from django.core.files.storage import default_storage
 from django.db.models import F
+from django.http import JsonResponse
+from django.utils import timezone
 from .models import Archivo, Categoria, Comentario, GaleriaPublicacion, Perfil, Publicacion
 
 
@@ -442,3 +445,50 @@ def eliminar_usuario(request, pk):
     if request.method == 'POST' and usuario != request.user:
         usuario.delete()
     return redirect('home:crud_usuarios')
+
+
+# CRUD de categorías con AJAX
+
+def categoria_a_dict(categoria):
+    return {
+        'id': categoria.id,
+        'nombre': categoria.nombre,
+        'registrado_por': categoria.fk_user.username if categoria.fk_user else '-',
+        'fecha': categoria.createdat.strftime('%Y-%m-%d %H:%M'),
+    }
+
+
+@operador_required
+def crud_categorias_ajax(request):
+    return render(request, 'home/crud_categorias_ajax.html')
+
+
+@operador_required
+def api_categorias(request):
+    if request.method == 'POST':
+        datos = json.loads(request.body or '{}')
+        nombre = datos.get('nombre', '').strip()
+        if not nombre:
+            return JsonResponse({'error': 'El nombre es obligatorio.'}, status=400)
+        categoria = Categoria.objects.create(nombre=nombre, fk_user=request.user)
+        return JsonResponse(categoria_a_dict(categoria), status=201)
+    categorias = Categoria.objects.select_related('fk_user').order_by('-createdat')
+    return JsonResponse({'categorias': [categoria_a_dict(c) for c in categorias]})
+
+
+@operador_required
+def api_categoria(request, pk):
+    categoria = get_object_or_404(Categoria, pk=pk)
+    if request.method == 'PUT':
+        datos = json.loads(request.body or '{}')
+        nombre = datos.get('nombre', '').strip()
+        if not nombre:
+            return JsonResponse({'error': 'El nombre es obligatorio.'}, status=400)
+        categoria.nombre = nombre
+        categoria.updatedat = timezone.now()
+        categoria.save()
+        return JsonResponse(categoria_a_dict(categoria))
+    if request.method == 'DELETE':
+        categoria.delete()
+        return JsonResponse({'eliminada': pk})
+    return JsonResponse(categoria_a_dict(categoria))
