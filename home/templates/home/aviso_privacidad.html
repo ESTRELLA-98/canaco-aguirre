@@ -1,0 +1,44 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block title %}Aviso de privacidad{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container" style="max-width: 820px;">
+        <span class="eyebrow">Legal</span>
+        <h1 class="mb-4">Aviso de privacidad</h1>
+
+        <h3>Responsable</h3>
+        <p>La Cámara Nacional de Comercio (Canaco) es responsable del tratamiento de los datos personales que se recaban en este sitio de noticias.</p>
+
+        <h3>Datos que recabamos</h3>
+        <p>Cuando creas una cuenta guardamos tu nombre de usuario, correo electrónico, nombre, apellidos y, si la agregas, tu foto de perfil. También guardamos los comentarios que publicas en las noticias.</p>
+
+        <h3>Para qué los usamos</h3>
+        <ul>
+            <li>Permitirte iniciar sesión y administrar tu perfil.</li>
+            <li>Publicar tus comentarios una vez que sean aprobados.</li>
+            <li>Conocer cuántas personas visitan las noticias para mejorar el sitio.</li>
+        </ul>
+
+        <h3>Cookies</h3>
+        <p>El sitio usa cookies necesarias para mantener tu sesión iniciada y proteger los formularios. Además, solo si lo aceptas, usamos cookies de <strong>Google Analytics</strong> para obtener estadísticas anónimas de las visitas, como las páginas vistas y el tiempo en el sitio.</p>
+        <p>Si rechazas las estadísticas, Google Analytics no se carga y no se envía ninguna información a Google.</p>
+
+        <h3>Cambiar tu decisión</h3>
+        <p>Puedes cambiar tu decisión sobre las estadísticas en cualquier momento.</p>
+        <button type="button" id="cambiarPreferencias" class="btn btn-outline-primary">Cambiar mis preferencias de cookies</button>
+    </div>
+</section>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('cambiarPreferencias').addEventListener('click', function () {
+        try {
+            localStorage.removeItem('canaco_estadisticas');
+        } catch (e) {}
+        document.getElementById('avisoCookies').hidden = false;
+        window.scrollTo(0, 0);
+    });
+</script>
+{% endblock extra_js %}

@@ -1,0 +1,42 @@
+<!-- Aviso de privacidad y cookies -->
+<div id="avisoCookies" class="aviso-cookies" role="dialog" aria-labelledby="avisoCookiesTitulo" hidden>
+    <p class="fw-bold mb-1" id="avisoCookiesTitulo">Tu privacidad importa</p>
+    <p>Utilizamos estadísticas de Google Analytics para conocer las visitas a nuestras noticias y mejorar el sitio. Puedes aceptar o rechazar estas estadísticas.</p>
+    <p>Consulta nuestro <a href="{% url 'home:aviso_privacidad' %}">Aviso de privacidad</a> para conocer cómo tratamos tus datos y utilizamos las cookies estadísticas.</p>
+    <div class="d-flex gap-2 flex-wrap">
+        <button type="button" id="aceptarCookies" class="btn btn-primary">Aceptar estadísticas</button>
+        <button type="button" id="rechazarCookies" class="btn btn-outline-secondary">Rechazar</button>
+    </div>
+</div>
+
+<script>
+    (function () {
+        var aviso = document.getElementById('avisoCookies');
+        var decision = null;
+        try {
+            decision = localStorage.getItem('canaco_estadisticas');
+        } catch (e) {}
+
+        if (!decision) {
+            aviso.hidden = false;
+        }
+
+        function guardar(valor) {
+            try {
+                localStorage.setItem('canaco_estadisticas', valor);
+            } catch (e) {}
+            aviso.hidden = true;
+        }
+
+        document.getElementById('aceptarCookies').addEventListener('click', function () {
+            guardar('aceptadas');
+            if (typeof cargarAnalytics === 'function') {
+                cargarAnalytics();
+            }
+        });
+
+        document.getElementById('rechazarCookies').addEventListener('click', function () {
+            guardar('rechazadas');
+        });
+    })();
+</script>

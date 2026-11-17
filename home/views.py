@@ -105,6 +105,10 @@ def noticia(request, pk=None):
     })
 
 
+def aviso_privacidad(request):
+    return render(request, 'home/aviso_privacidad.html')
+
+
 def sign_up(request):
     if request.method == 'POST':
         username = request.POST.get('username', '').strip()

@@ -1,11 +1,24 @@
 {% if google_analytics_id %}
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ google_analytics_id }}"></script>
+<!-- Google tag (gtag.js): solo se carga si el visitante acepta las estadísticas -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', '{{ google_analytics_id }}');
+  function cargarAnalytics() {
+    if (window.analyticsCargado) return;
+    window.analyticsCargado = true;
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id={{ google_analytics_id }}';
+    document.head.appendChild(script);
+    gtag('js', new Date());
+    gtag('config', '{{ google_analytics_id }}');
+  }
+
+  try {
+    if (localStorage.getItem('canaco_estadisticas') === 'aceptadas') {
+      cargarAnalytics();
+    }
+  } catch (e) {}
 </script>
 {% endif %}
