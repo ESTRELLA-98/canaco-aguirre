@@ -27,6 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-9%w#tj+t3d0@tw
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+CSRF_TRUSTED_ORIGINS = [origen for origen in os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',') if origen]
 
 
 # Application definition
