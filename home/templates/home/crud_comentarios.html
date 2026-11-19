@@ -33,7 +33,7 @@
                         <span class="badge bg-warning text-dark">Pendiente</span>
                         {% endif %}
                     </td>
-                    <td><a href="{% url 'home:aprobar_comentario' comentario.id %}" class="btn btn-success btn-sm">Aprobar</a></td>
+                    <td><a href="{% url 'home:aprobar_comentario' comentario.id %}" class="btn btn-success btn-sm">Confirmar</a></td>
                     <td><a href="{% url 'home:bloquear_comentario' comentario.id %}" class="btn btn-warning btn-sm">Bloquear</a></td>
                     <td>
                         <form method="post" action="{% url 'home:eliminar_comentario' comentario.id %}">
